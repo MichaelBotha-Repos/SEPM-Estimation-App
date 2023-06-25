@@ -14,6 +14,7 @@ class Task:
     def add_estimations(self):
         for i in range(3):
             estimate = input(f"Please enter the {i + 1} effort estimation for task in man.hours:\n")
-            self.task_estimations.append(estimate)
+            self.task_estimations.append(int(estimate))
 
-    
+    def add_chosen_estimation(self):
+        self.chosen_estimation = int(input("\nPlease enter your chosen estimate:\n"))
