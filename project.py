@@ -7,29 +7,41 @@ class Project:
         if new:
             self.project_id = input('Please insert a project name:\n')
             # Create tables/relations relevant to the project
-            command1 = f'CREATE TABLE tasks_{self.project_id}('
-            command2 = 'task_id INTEGER PRIMARY KEY AUTOINCREMENT,'\
-                       'task_description TEXT,'\
-                       'estimate1 INTEGER,'\
-                       'estimate2 INTEGER,'\
-                       'estimate3 INTEGER,'\
-                       'chosen_estimate INTEGER'\
-                       'allocated_staff INTEGER );'
-            db_connection_cursor.execute(command1+command2)
-            command1 = f'CREATE TABLE staff_{self.project_id}('
-            command2 = 'staff_id INTEGER PRIMARY KEY AUTOINCREMENT,'\
+            print(db_connection_cursor.execute("SELECT name FROM sqlite_master WHERE type='table';"))
+            table_names = db_connection_cursor.fetchall()
+            print(table_names)
+            if len(table_names)== 0:
+                command = 'CREATE TABLE projects('\
+                          'project_id INTEGER PRIMARY KEY AUTOINCREMENT,'\
+                          'project_description TEXT );'
+                db_connection_cursor.execute(command)
+
+            command = f'CREATE TABLE tasks_{self.project_id}('\
+                        'task_id INTEGER PRIMARY KEY AUTOINCREMENT,'\
+                        'task_description TEXT,'\
+                        'estimate1 INTEGER,'\
+                        'estimate2 INTEGER,'\
+                        'estimate3 INTEGER,'\
+                        'chosen_estimate INTEGER'\
+                        'allocated_staff INTEGER );'
+            db_connection_cursor.execute(command)
+            command = f'CREATE TABLE staff_{self.project_id}('\
+                       'staff_id INTEGER PRIMARY KEY AUTOINCREMENT,'\
                        'designation TEXT,'\
                        'rate FLOAT );'
-            db_connection_cursor.execute(command1+command2)
-            command1 = f'CREATE TABLE material_{self.project_id}('
-            command2 = 'material_id INTEGER PRIMARY KEY AUTOINCREMENT,'\
+            db_connection_cursor.execute(command)
+            command = f'CREATE TABLE material_{self.project_id}('\
+                       'material_id INTEGER PRIMARY KEY AUTOINCREMENT,'\
                        'description TEXT,'\
                        'number_required FLOAT,'\
                        'unit_cost FLOAT );'
-            db_connection_cursor.execute(command1+command2)
-
+            db_connection_cursor.execute(command)
             print(db_connection_cursor.execute("SELECT name FROM sqlite_master WHERE type='table';"))
             print(db_connection_cursor.fetchall())
+            #to add new project to projects tables
+
+        else:
+            ...
 
     def add_task(self):
         '''Method for adding a task '''
