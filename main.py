@@ -18,11 +18,15 @@ if __name__ == '__main__':
         if choice == '1':
             new_project = Project(db_connection_cursor)
             while True:
-                print("Please select and option:")
-                print("1 - Create a new task")
+                print("Please select an option:")
+                print("1 - Add a new task")
                 print("2 - Edit an existing task")
                 print("3 - Display all tasks")
-                print("4 - Save Project")
+                print("4 - Add materials")
+                print("4 - Edit materials")
+                print("4 - Add staff")
+                print("4 - Edit staff")
+                print("Calculate project costs")
                 print("5 - Exit")
                 choice2 = input()
                 if choice2 == '1':
