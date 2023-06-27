@@ -70,3 +70,42 @@ class Project:
             
         print('\n\n')
         
+class Project_from_gui:
+
+    @staticmethod
+    def new_project(db_connection_cursor, name):
+
+
+        name = name.lower().replace(" ", "_")
+
+        command = 'CREATE TABLE IF NOT EXISTS projects (id INTEGER PRIMARY KEY AUTOINCREMENT, project_name TEXT)'
+        db_connection_cursor.execute(command)
+
+        command = 'INSERT INTO projects(project_name)'\
+                    'VALUES(?);'
+        db_connection_cursor.execute(command, (name,))
+        db_connection_cursor.connection.commit()
+
+
+        command = f'CREATE TABLE tasks_{name}('\
+                        'task_id INTEGER PRIMARY KEY AUTOINCREMENT,'\
+                        'task_description TEXT,'\
+                        'estimate1 INTEGER,'\
+                        'estimate2 INTEGER,'\
+                        'estimate3 INTEGER,'\
+                        'chosen_estimate INTEGER'\
+                        'allocated_staff INTEGER );'
+        db_connection_cursor.execute(command)
+        command = f'CREATE TABLE staff_{name}('\
+                       'staff_id INTEGER PRIMARY KEY AUTOINCREMENT,'\
+                       'designation TEXT,'\
+                       'rate FLOAT );'
+        db_connection_cursor.execute(command)
+        command = f'CREATE TABLE material_{name}('\
+                       'material_id INTEGER PRIMARY KEY AUTOINCREMENT,'\
+                       'description TEXT,'\
+                       'number_required FLOAT,'\
+                       'unit_cost FLOAT );'
+        db_connection_cursor.execute(command)
+        
+        
