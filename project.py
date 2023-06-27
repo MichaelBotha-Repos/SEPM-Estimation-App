@@ -50,7 +50,7 @@ class Project:
         command = f'INSERT INTO tasks_{self.project_name}'\
                   f'(task_description, estimate1, estimate2, estimate3, chosen_estimate, allocated_staff)'\
                   f'VALUES({new_task.task_description},'\
-                  f'{new_task.chosen_estimation[0]},'\ 
+                  f'{new_task.chosen_estimation[0]},'\
                   f'{new_task.chosen_estimation[1]},'
                 #   f'{new_task.chosen_estimation[2]});'
         self.db_connection_cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
