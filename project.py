@@ -149,6 +149,20 @@ class Project_from_gui:
         df = df.reset_index(drop=True)
 
         return df
+    
+    @staticmethod
+    def get_materials(db_connection_cursor, name):
+        command = f'SELECT * FROM material_{name}'
+        db_connection_cursor.execute(command)
+
+        results = db_connection_cursor.fetchall()
+        
+
+        df = pd.DataFrame(results, columns=['material_id', 'description', 'number_required', 'unit_cost'])
+
+        df = df.reset_index(drop=True)
+
+        return df
 
         
         
