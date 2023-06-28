@@ -1,4 +1,5 @@
 from task import Task
+import pandas as pd
 
 class Project:
     """Represents a project with all allocated tasks and assigned efforts, as well as material costs"""
@@ -69,9 +70,18 @@ class Project:
                   f"{task.chosen_estimation}")
             
         print('\n\n')
+
+"""
+This class purpose is to handle the creation of a project from a GUI created using streamlit
+"""
         
 class Project_from_gui:
 
+    """
+    This method creates a new project and lists it in the projects table, then creates all the tables necessary for the records
+
+    args: DB connection tool, name of the project
+    """
     @staticmethod
     def new_project(db_connection_cursor, name):
 
@@ -93,7 +103,7 @@ class Project_from_gui:
                         'estimate1 INTEGER,'\
                         'estimate2 INTEGER,'\
                         'estimate3 INTEGER,'\
-                        'chosen_estimate INTEGER'\
+                        'chosen_estimate INTEGER,'\
                         'allocated_staff INTEGER );'
         db_connection_cursor.execute(command)
         command = f'CREATE TABLE staff_{name}('\
@@ -107,5 +117,38 @@ class Project_from_gui:
                        'number_required FLOAT,'\
                        'unit_cost FLOAT );'
         db_connection_cursor.execute(command)
+
+    """
+    this method retrieves all the projects created until now in order to display them in the GUI edit page
+
+    args: DB connection tool
+
+    returns: list of projects
+    """
+    @staticmethod
+    def get_projects(db_connection_cursor):
+        command = 'SELECT project_name FROM projects'
+        db_connection_cursor.execute(command)
+
+        results = db_connection_cursor.fetchall()
+
+        project_names = [row[0] for row in results]
+
+        return project_names
+    
+    @staticmethod
+    def get_tasks(db_connection_cursor, name):
+        command = f'SELECT * FROM tasks_{name}'
+        db_connection_cursor.execute(command)
+
+        results = db_connection_cursor.fetchall()
+        print(results)
+
+        df = pd.DataFrame(results, columns=['task_id', 'task_description', 'estimate1', 'estimate2', 'estimate3', 'chosen_estimate', 'allocated_staff'])
+
+        df = df.reset_index(drop=True)
+
+        return df
+
         
         

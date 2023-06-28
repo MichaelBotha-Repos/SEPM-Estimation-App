@@ -1,3 +1,5 @@
+import pandas as pd
+
 class Task:
     """Represents a project task"""
     def __init__(self):
@@ -18,3 +20,19 @@ class Task:
 
     def add_chosen_estimation(self):
         self.chosen_estimation = int(input("\nPlease enter your chosen estimate:\n"))
+
+    @staticmethod
+    def add_task(db_connection_cursor, pj_name, desc, est_1, est_2, est_3, chosen_est, staff):
+        command = f'INSERT INTO tasks_{pj_name} (task_description, estimate1, estimate2, estimate3, chosen_estimate, allocated_staff) VALUES (?, ?, ?, ?, ?, ?)'
+        db_connection_cursor.execute(command, (desc, est_1, est_2, est_3, chosen_est, staff))
+        db_connection_cursor.connection.commit()
+
+    """
+    This method updates the task table using a pandas df
+    args: db connection (not cursor), dataframe, project name (to get table)
+    """
+    @staticmethod
+    def update_tasks(db_connection, df, pj_name):
+        
+        print(df)
+        df.to_sql(f'tasks_{pj_name}', db_connection, if_exists='replace', index=False)
