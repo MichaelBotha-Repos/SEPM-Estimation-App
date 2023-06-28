@@ -12,9 +12,12 @@ projects_list = pj.get_projects(db_connection_cursor)
 st.title('Edit existing project')
 st.divider()
 
-option = st.selectbox(
-    'Available projects:',
-    projects_list)
+if len(projects_list) > 0:
+    option = st.selectbox(
+        'Available projects:',
+        projects_list)
+else:
+    st.warning('No projects, create a project first')
 
 st.write('You selected:', option)
 
@@ -25,7 +28,7 @@ if option:
     tasks_list = pj.get_tasks(db_connection_cursor, option)
     if len(tasks_list) >= 1:
         
-        edited_df = st.data_editor(tasks_list, hide_index=True)
+        edited_df = st.data_editor(tasks_list, hide_index=True, disabled=['task_id'])
         st.button('Send update data', on_click=Task.update_tasks(db_connection, edited_df, option))
     else:
         st.warning('There are no tasks yet')

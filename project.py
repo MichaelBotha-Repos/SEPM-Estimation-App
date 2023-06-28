@@ -142,7 +142,7 @@ class Project_from_gui:
         db_connection_cursor.execute(command)
 
         results = db_connection_cursor.fetchall()
-        print(results)
+        
 
         df = pd.DataFrame(results, columns=['task_id', 'task_description', 'estimate1', 'estimate2', 'estimate3', 'chosen_estimate', 'allocated_staff'])
 
