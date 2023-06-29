@@ -9,6 +9,6 @@ class Materials:
     @staticmethod
     def update_materials(db_connection, df, pj_name):
         
-        print(df)
+        
         df.to_sql(f'material_{pj_name}', db_connection, if_exists='replace', index=False)
     

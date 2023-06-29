@@ -1,13 +1,18 @@
 import sqlite3
 import streamlit as st
 from project import Project_from_gui as pj
+from staff import Staff
 from task import Task
 from material import Materials
 
 db_connection = sqlite3.connect('estimations.db')
 db_connection_cursor = db_connection.cursor()
 
-projects_list = pj.get_projects(db_connection_cursor)
+try:
+    projects_list = pj.get_projects(db_connection_cursor)
+except:
+    st.warning('No projects yet, the script has stopped')
+    st.stop()
 
 
 st.title('Edit existing project')
@@ -81,3 +86,28 @@ if option:
 
         if submitted:
             Materials.add_material(db_connection_cursor, option, material_desc, number_req, unit_cost)
+            st.experimental_rerun()
+            
+st.divider()
+st.subheader('Staff:')
+if option:
+    Staff_list = pj.get_staff(db_connection_cursor, option)
+    if len(Staff_list) > 0:
+        edited_df_s = st.data_editor(Staff_list, hide_index=True, disabled=['Staff_id'])
+        st.button('Send update Staff', on_click=Staff.update_staff(db_connection, edited_df_s, option))
+    else:
+        st.warning('There is no Staff yet')
+
+    st.subheader('Add Staff')
+    with st.form('Staff_form', clear_on_submit=True):
+        Staff_desc = st.text_input('Staff designation')
+        rate = st.number_input('Rate', value=0, step=1)
+
+        submitted = st.form_submit_button('Submit')
+
+        # formatting for sql query
+        rate = int(rate)
+
+        if submitted:
+            Staff.add_staff(db_connection_cursor, option, Staff_desc, rate)
+            st.experimental_rerun()

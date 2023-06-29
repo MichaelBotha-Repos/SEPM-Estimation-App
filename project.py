@@ -163,6 +163,20 @@ class Project_from_gui:
         df = df.reset_index(drop=True)
 
         return df
+    
+    @staticmethod
+    def get_staff(db_connection_cursor, name):
+        command = f'SELECT * FROM staff_{name}'
+        db_connection_cursor.execute(command)
+
+        results = db_connection_cursor.fetchall()
+        
+
+        df = pd.DataFrame(results, columns=['staff_id', 'designation', 'rate'])
+
+        df = df.reset_index(drop=True)
+
+        return df
 
         
         
