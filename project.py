@@ -118,6 +118,14 @@ class Project_from_gui:
                        'unit_cost FLOAT );'
         db_connection_cursor.execute(command)
 
+    @staticmethod
+    def delete_project(db_connection_cursor, name):
+        command = 'DELETE FROM projects WHERE project_name = ?'
+        db_connection_cursor.execute(command, (name,))
+        db_connection_cursor.connection.commit()
+        
+
+
     """
     this method retrieves all the projects created until now in order to display them in the GUI edit page
 

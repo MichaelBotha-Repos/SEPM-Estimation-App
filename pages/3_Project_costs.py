@@ -22,6 +22,7 @@ if len(projects) > 0:
         projects)
 else:
     st.warning('No projects, create a project first')
+    st.stop()
 
 if option:
 
@@ -56,6 +57,6 @@ if option:
     total = material_df['total'].sum()
     st.write('Total project\'s materials cost:', total)
 
-
+st.sidebar.info('Cost calculator app')
 
 

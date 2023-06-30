@@ -24,6 +24,7 @@ if len(projects_list) > 0:
         projects_list)
 else:
     st.warning('No projects, create a project first')
+    st.stop()
 
 st.write('You selected:', option)
 
@@ -118,3 +119,5 @@ with tab3:
             if submitted:
                 Staff.add_staff(db_connection_cursor, option, Staff_desc, rate)
                 st.experimental_rerun()
+
+st.sidebar.info('Cost calculator app')

@@ -20,3 +20,23 @@ with st.form('new_pj', clear_on_submit=True):
         st.balloons()
         sleep(2)
         st.experimental_rerun()
+try:
+    projects_list = Project_from_gui.get_projects(db_connection_cursor)
+except:
+    st.warning('No projects yet, the script has stopped')
+
+with st.form('input'):
+    if len(projects_list) > 0:
+        option = st.selectbox(
+            'Available projects:',
+            projects_list)
+    else:
+        st.warning('No projects, create a project first')
+        
+    
+    submit = st.form_submit_button('Delete project')
+
+    if submit:
+        Project_from_gui.delete_project(db_connection_cursor, option)
+
+st.sidebar.info('Cost calculator app')
