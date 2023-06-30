@@ -1,6 +1,7 @@
 import streamlit as st
 import sqlite3
 from project import Project_from_gui as pj
+import pandas as pd
 
 db_connection = sqlite3.connect('estimations.db')
 db_connection_cursor = db_connection.cursor()
@@ -28,9 +29,22 @@ if option:
 
     st.divider()
 
-    st.subheader('Total task and staff cost:')
+    st.subheader('Total staff cost divided by task:')
     task_df = pj.get_tasks(db_connection_cursor, option)
     staff_df = pj.get_staff(db_connection_cursor, option)
+
+    new_df = pd.DataFrame()
+
+    new_df['tasks'] = task_df['task_description']
+    new_df['chosen_estimate'] = task_df['chosen_estimate']
+    new_df['allocated_staff'] = task_df['allocated_staff']
+    df2 = pd.merge(new_df, staff_df, left_on='allocated_staff', right_on='staff_id')
+    df2['total'] = df2['chosen_estimate'] * df2['rate']
+    st.write(df2)
+    tot = df2['total'].sum()
+    st.write('The total task cost for this project is:', tot)
+    
+
 
     st.divider()
 

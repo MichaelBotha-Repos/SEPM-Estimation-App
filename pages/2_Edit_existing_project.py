@@ -33,6 +33,7 @@ tab1, tab2, tab3 = st.tabs(["Task", "Material", "Staff"])
 with tab1:
     st.subheader('Task list:')
     if option:
+        st.text('When allocating staff please use staff ID')
         tasks_list = pj.get_tasks(db_connection_cursor, option)
         if len(tasks_list) >= 1:
             
