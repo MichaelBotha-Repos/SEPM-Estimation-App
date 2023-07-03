@@ -41,7 +41,7 @@ if option:
     new_df['allocated_staff'] = task_df['allocated_staff']
     df2 = pd.merge(new_df, staff_df, left_on='allocated_staff', right_on='staff_id')
     df2['total'] = df2['chosen_estimate'] * df2['rate']
-    st.write(df2)
+    st.dataframe(df2, hide_index=True)
     tot = df2['total'].sum()
     st.write('The total task cost for this project is:', tot)
     
@@ -52,7 +52,7 @@ if option:
     st.subheader('Total materials cost:')
     material_df = pj.get_materials(db_connection_cursor, option)
     material_df['total'] = material_df['number_required'] * material_df['unit_cost']
-    st.write(material_df)
+    st.dataframe(material_df, hide_index=True)
 
     total = material_df['total'].sum()
     st.write('Total project\'s materials cost:', total)
