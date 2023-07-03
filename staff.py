@@ -9,4 +9,4 @@ class Staff:
     @staticmethod
     def update_staff(db_connection, df, pj_name):
         
-        df.to_sql(f'staff_{pj_name}', db_connection, if_exists='replace', index=False)
+        df.to_sql(f'staff_{pj_name}', db_connection, if_exists='replace', index=False, dtype={'staff_id': 'INTEGER PRIMARY KEY AUTOINCREMENT'})

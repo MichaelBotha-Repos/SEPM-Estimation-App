@@ -35,4 +35,4 @@ class Task:
     def update_tasks(db_connection, df, pj_name):
         
         print(df)
-        df.to_sql(f'tasks_{pj_name}', db_connection, if_exists='replace', index=False)
+        df.to_sql(f'tasks_{pj_name}', db_connection, if_exists='replace', index=False, dtype={'task_id': 'INTEGER PRIMARY KEY AUTOINCREMENT'})

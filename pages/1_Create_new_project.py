@@ -6,7 +6,7 @@ import sqlite3
 
 db_connection = sqlite3.connect('estimations.db')
 db_connection_cursor = db_connection.cursor()
-st.title('Create a new project')
+st.header('Create a new project')
 
 
 with st.form('new_pj', clear_on_submit=True):
@@ -24,6 +24,9 @@ try:
     projects_list = Project_from_gui.get_projects(db_connection_cursor)
 except:
     st.warning('No projects yet, the script has stopped')
+
+
+st.header('Delete project')
 
 with st.form('input'):
     if len(projects_list) > 0:

@@ -38,15 +38,19 @@ with tab1:
         tasks_list = pj.get_tasks(db_connection_cursor, option)
         if len(tasks_list) >= 1:
             
-            edited_df = st.data_editor(tasks_list, hide_index=True, disabled=['task_id'])
-            st.button('Send update tasks', on_click=Task.update_tasks(db_connection, edited_df, option))
+            with st.form('task_form_1'):
+                edited_df = st.data_editor(tasks_list, hide_index=True, disabled=['task_id'])
+
+                submit_task = st.form_submit_button('Send update tasks')
+                if submit_task:
+                    Task.update_tasks(db_connection, edited_df, option)
         else:
             st.warning('There are no tasks yet')
 
         st.divider()
 
         st.subheader('Add task')
-        with st.form('task_form', clear_on_submit=True):
+        with st.form('task_form_2', clear_on_submit=True):
             task_desc = st.text_input('Task description')
             task_est_1 = st.number_input('Estimation 1', value=0, step=1)
             task_est_2 = st.number_input('Estimation 2', value=0, step=1)
@@ -73,8 +77,12 @@ with tab2:
     if option:
         materials_list = pj.get_materials(db_connection_cursor, option)
         if len(materials_list) > 0:
-            edited_df_m = st.data_editor(materials_list, hide_index=True, disabled=['material_id'])
-            st.button('Send update materials', on_click=Materials.update_materials(db_connection, edited_df_m, option))
+
+            with st.form('material_form_1'):
+                edited_df_m = st.data_editor(materials_list, hide_index=True, disabled=['material_id'])
+                mat_submit = st.form_submit_button('Send update materials')
+                if mat_submit:
+                    Materials.update_materials(db_connection, edited_df_m, option)
         else:
             st.warning('There are no materials yet')
 
@@ -101,8 +109,12 @@ with tab3:
     if option:
         Staff_list = pj.get_staff(db_connection_cursor, option)
         if len(Staff_list) > 0:
-            edited_df_s = st.data_editor(Staff_list, hide_index=True, disabled=['Staff_id'])
-            st.button('Send update Staff', on_click=Staff.update_staff(db_connection, edited_df_s, option))
+
+            with st.form('staff_form_1'):
+                edited_df_s = st.data_editor(Staff_list, hide_index=True, disabled=['Staff_id'])
+                submit_staff = st.form_submit_button('Send update Staff')
+                if submit_staff:
+                    Staff.update_staff(db_connection, edited_df_s, option)
         else:
             st.warning('There is no Staff yet')
 
