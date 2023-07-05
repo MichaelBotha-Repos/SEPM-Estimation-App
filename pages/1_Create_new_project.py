@@ -6,7 +6,7 @@ import sqlite3
 
 db_connection = sqlite3.connect('estimations.db')
 db_connection_cursor = db_connection.cursor()
-st.header('Create a new project')
+st.header('Create a new project :pushpin:')
 
 
 with st.form('new_pj', clear_on_submit=True):
@@ -24,9 +24,10 @@ try:
     projects_list = Project_from_gui.get_projects(db_connection_cursor)
 except:
     st.warning('No projects yet, the script has stopped')
+    st.stop()
 
 
-st.header('Delete project')
+st.header('Delete project :x:')
 
 with st.form('input'):
     if len(projects_list) > 0:
@@ -41,5 +42,6 @@ with st.form('input'):
 
     if submit:
         Project_from_gui.delete_project(db_connection_cursor, option)
+        st.experimental_rerun()
 
 st.sidebar.info('Cost calculator app')

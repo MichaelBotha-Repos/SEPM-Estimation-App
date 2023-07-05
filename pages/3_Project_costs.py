@@ -13,7 +13,7 @@ except:
     st.stop()
 
 
-st.title('Project costs')
+st.header('Project costs :dollar:')
 st.divider()
 
 if len(projects) > 0:

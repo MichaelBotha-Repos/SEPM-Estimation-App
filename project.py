@@ -52,6 +52,18 @@ class Project_from_gui:
         command = 'DELETE FROM projects WHERE project_name = ?'
         db_connection_cursor.execute(command, (name,))
         db_connection_cursor.connection.commit()
+        print(name)
+        command2 = f'DROP TABLE tasks_{name}'
+        db_connection_cursor.execute(command2)
+        db_connection_cursor.connection.commit()
+
+        command3 = f'DROP TABLE staff_{name}'
+        db_connection_cursor.execute(command3)
+        db_connection_cursor.connection.commit()
+
+        command4 = f'DROP TABLE material_{name}'
+        db_connection_cursor.execute(command4)
+        db_connection_cursor.connection.commit()
         
 
 

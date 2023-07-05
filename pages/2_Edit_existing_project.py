@@ -15,7 +15,7 @@ except:
     st.stop()
 
 
-st.title('Edit existing project')
+st.header('Edit existing project :wrench:')
 st.divider()
 
 if len(projects_list) > 0:
