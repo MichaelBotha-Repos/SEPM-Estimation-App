@@ -20,4 +20,10 @@ class Materials:
     def update_materials(db_connection, df, pj_name):
         # pandas method to send dataframe to sql table, see pandas docs to_sql section
         df.to_sql(f'material_{pj_name}', db_connection, if_exists='replace', index=False, dtype={'material_id': 'INTEGER PRIMARY KEY AUTOINCREMENT'})
+
+    @staticmethod
+    def delete_material(db_connection_cursor, pj_name, material_id):
+        command = f"DELETE FROM material_{pj_name} WHERE material_id == {material_id}"
+        db_connection_cursor.execute(command)
+        db_connection_cursor.connection.commit()
     

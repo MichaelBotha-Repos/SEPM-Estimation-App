@@ -70,6 +70,15 @@ with tab1:
             if submitted:
                 Task.add_task(db_connection_cursor, option, task_desc, task_1, task_2, task_3, task_chosen, task_staff)
                 st.experimental_rerun()
+        st.divider()
+        st.subheader('Delete task')
+        with st.form('delete_task'):
+            task_id_to_delete = st.number_input('Insert task id to delete', value=0, step=1)
+
+            submit_del = st.form_submit_button('Delete task')
+            if submit_del:
+                Task.delete_task(db_connection_cursor, option, task_id_to_delete)
+                st.experimental_rerun()
 
 
 with tab2:
@@ -101,6 +110,14 @@ with tab2:
             if submitted:
                 Materials.add_material(db_connection_cursor, option, material_desc, number_req, unit_cost)
                 st.experimental_rerun()
+
+        with st.form('delete_material'):
+            material_id_to_delete = st.number_input('Insert material id to delete', value=0, step=1)
+
+            submit_del_m = st.form_submit_button('Delete material')
+            if submit_del_m:
+                Materials.delete_material(db_connection_cursor, option, material_id_to_delete)
+                st.experimental_rerun()
             
 
 
@@ -130,6 +147,14 @@ with tab3:
 
             if submitted:
                 Staff.add_staff(db_connection_cursor, option, Staff_desc, rate)
+                st.experimental_rerun()
+
+        with st.form('delete_staff'):
+            staff_id_to_delete = st.number_input('Insert staff id to delete', value=0, step=1)
+
+            submit_del_s = st.form_submit_button('Delete staff')
+            if submit_del_s:
+                Staff.delete_staff(db_connection_cursor, option, staff_id_to_delete)
                 st.experimental_rerun()
 
 st.sidebar.info('Cost calculator app')

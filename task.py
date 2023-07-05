@@ -45,3 +45,14 @@ class Task:
     def update_tasks(db_connection, df, pj_name):
         # pandas method to send dataframe to sql table see panda docs to_sql section
         df.to_sql(f'tasks_{pj_name}', db_connection, if_exists='replace', index=False, dtype={'task_id': 'INTEGER PRIMARY KEY AUTOINCREMENT'})
+
+    """
+    method to delete task
+
+    args: DB connection cursor, project name, task id
+    """
+    @staticmethod
+    def delete_task(db_connection_cursor, pj_name, task_id):
+        command = f"DELETE FROM tasks_{pj_name} WHERE task_id == {task_id}"
+        db_connection_cursor.execute(command)
+        db_connection_cursor.connection.commit()
