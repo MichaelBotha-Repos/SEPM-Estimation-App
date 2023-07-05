@@ -23,6 +23,10 @@ class Staff:
         # pandas method to send a dataframe to sql, see pandas docs to_sql section
         df.to_sql(f'staff_{pj_name}', db_connection, if_exists='replace', index=False, dtype={'staff_id': 'INTEGER PRIMARY KEY AUTOINCREMENT'})
 
+    """
+    delete a record from the staff table
+    args: DB connection cursor, project name and staff id
+    """
     @staticmethod
     def delete_staff(db_connection_cursor, pj_name, staff_id):
         command = f"DELETE FROM staff_{pj_name} WHERE staff_id == {staff_id}"
