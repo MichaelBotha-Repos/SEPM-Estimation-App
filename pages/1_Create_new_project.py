@@ -2,12 +2,12 @@ from time import sleep
 import streamlit as st
 from project import Project_from_gui
 import sqlite3
+import logging
 
 
 db_connection = sqlite3.connect('estimations.db')
 db_connection_cursor = db_connection.cursor()
 st.header('Create a new project :pushpin:')
-
 
 with st.form('new_pj', clear_on_submit=True):
     name_pj = st.text_input('Insert name')
@@ -23,6 +23,7 @@ with st.form('new_pj', clear_on_submit=True):
 try:
     projects_list = Project_from_gui.get_projects(db_connection_cursor)
 except:
+    logging.warning('Project table not created')
     st.warning('No projects yet, the script has stopped')
     st.stop()
 
@@ -35,6 +36,7 @@ with st.form('input'):
             'Available projects:',
             projects_list)
     else:
+        logging.warning('empty project list')
         st.warning('No projects, create a project first')
         
     

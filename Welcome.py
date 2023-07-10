@@ -1,4 +1,7 @@
 import streamlit as st
+import logging
+
+logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 
 st.title('Select a function from the sidebar :four_leaf_clover:')
 st.divider()
@@ -21,3 +24,5 @@ st.text('To see total costs select the costs section on the sidebar and choose a
 st.text('Costs will automatically be displayed and summarized.')
 
 st.sidebar.info('Cost calculator app')
+
+logging.warning('App started - if this message is not shown: issue with streamlit library')

@@ -2,6 +2,7 @@ import streamlit as st
 import sqlite3
 from project import Project_from_gui as pj
 import pandas as pd
+import logging
 
 db_connection = sqlite3.connect('estimations.db')
 db_connection_cursor = db_connection.cursor()
@@ -9,6 +10,7 @@ db_connection_cursor = db_connection.cursor()
 try:
     projects = pj.get_projects(db_connection_cursor)
 except:
+    logging.warning('No projects table or empty table')
     st.warning('No projects yet, the script has stopped')
     st.stop()
 
@@ -21,6 +23,7 @@ if len(projects) > 0:
         'Available projects:',
         projects)
 else:
+    logging.warning('empty project table')
     st.warning('No projects, create a project first')
     st.stop()
 

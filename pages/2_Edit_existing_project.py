@@ -4,6 +4,7 @@ from project import Project_from_gui as pj
 from staff import Staff
 from task import Task
 from material import Materials
+import logging
 
 db_connection = sqlite3.connect('estimations.db')
 db_connection_cursor = db_connection.cursor()
@@ -11,6 +12,7 @@ db_connection_cursor = db_connection.cursor()
 try:
     projects_list = pj.get_projects(db_connection_cursor)
 except:
+    logging.warning('No projects - empty table or table not created')
     st.warning('No projects yet, the script has stopped')
     st.stop()
 
@@ -23,6 +25,7 @@ if len(projects_list) > 0:
         'Available projects:',
         projects_list)
 else:
+    logging.warning('no project, general edit')
     st.warning('No projects, create a project first')
     st.stop()
 
@@ -45,6 +48,7 @@ with tab1:
                 if submit_task:
                     Task.update_tasks(db_connection, edited_df, option)
         else:
+            logging.warning('task table empty or not created')
             st.warning('There are no tasks yet')
 
         st.divider()
@@ -93,6 +97,7 @@ with tab2:
                 if mat_submit:
                     Materials.update_materials(db_connection, edited_df_m, option)
         else:
+            logging.warning('material table empty or not created')
             st.warning('There are no materials yet')
 
         st.subheader('Add material')
@@ -133,6 +138,7 @@ with tab3:
                 if submit_staff:
                     Staff.update_staff(db_connection, edited_df_s, option)
         else:
+            logging.warning('staff table empty or not created')
             st.warning('There is no Staff yet')
 
         st.subheader('Add Staff')
