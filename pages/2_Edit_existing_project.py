@@ -16,7 +16,6 @@ except:
     st.warning('No projects yet, the script has stopped')
     st.stop()
 
-
 st.header('Edit existing project :wrench:')
 st.divider()
 
@@ -33,14 +32,13 @@ st.write('You selected:', option)
 
 tab1, tab2, tab3 = st.tabs(["Task", "Material", "Staff"])
 
-
 with tab1:
     st.subheader('Task list:')
     if option:
         st.text('When allocating staff please use staff ID')
         tasks_list = pj.get_tasks(db_connection_cursor, option)
         if len(tasks_list) >= 1:
-            
+
             with st.form('task_form_1'):
                 edited_df = st.data_editor(tasks_list, hide_index=True, disabled=['task_id'])
 
@@ -61,7 +59,7 @@ with tab1:
             task_est_3 = st.number_input('Estimation 3', value=0, step=1)
             task_est_chosen = st.number_input('Chosen estimation', value=0, step=1)
             task_staff = st.number_input('Allocated staff', value=0, step=1)
-            
+
             submitted = st.form_submit_button('Submit')
 
             # formatting for sql query
@@ -83,7 +81,6 @@ with tab1:
             if submit_del:
                 Task.delete_task(db_connection_cursor, option, task_id_to_delete)
                 st.experimental_rerun()
-
 
 with tab2:
     st.subheader('Materials:')
@@ -123,8 +120,6 @@ with tab2:
             if submit_del_m:
                 Materials.delete_material(db_connection_cursor, option, material_id_to_delete)
                 st.experimental_rerun()
-            
-
 
 with tab3:
     st.subheader('Staff:')

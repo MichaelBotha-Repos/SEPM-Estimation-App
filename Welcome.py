@@ -1,7 +1,22 @@
 import streamlit as st
 import logging
+import os
 
-logging.basicConfig(filename='app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+# We are going to create a directory and configure our logger to save the logs to the file in that directory
+try:
+    # Location of directory
+    logs_directory = "logs/"
+
+    # Create logs directory if it doesn't exist
+    if not os.path.exists(logs_directory):
+        os.makedirs(logs_directory)
+
+    # Configure logging
+    logging.basicConfig(filename=logs_directory + 'app.log', filemode='w',
+                        format='%(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+
+except OSError as e:
+    print("Error creating directory or setting up logging:", str(e))
 
 st.title('Select a function from the sidebar :four_leaf_clover:')
 st.divider()

@@ -4,7 +4,6 @@ from project import Project_from_gui
 import sqlite3
 import logging
 
-
 db_connection = sqlite3.connect('estimations.db')
 db_connection_cursor = db_connection.cursor()
 st.header('Create a new project :pushpin:')
@@ -15,18 +14,20 @@ with st.form('new_pj', clear_on_submit=True):
     submitted = st.form_submit_button("Submit")
 
     if submitted:
-        Project_from_gui.new_project(db_connection_cursor, name_pj)
-        st.success('Success!')
-        st.balloons()
-        sleep(2)
-        st.experimental_rerun()
+        if name_pj != "":
+            Project_from_gui.new_project(db_connection_cursor, name_pj)
+            st.success('Success!')
+            st.balloons()
+            sleep(2)
+            st.experimental_rerun()
+        else:
+            st.warning("Please enter a name first")
 try:
     projects_list = Project_from_gui.get_projects(db_connection_cursor)
 except:
     logging.warning('Project table not created')
     st.warning('No projects yet, the script has stopped')
     st.stop()
-
 
 st.header('Delete project :x:')
 
@@ -38,12 +39,15 @@ with st.form('input'):
     else:
         logging.warning('empty project list')
         st.warning('No projects, create a project first')
-        
-    
+
     submit = st.form_submit_button('Delete project')
 
     if submit:
-        Project_from_gui.delete_project(db_connection_cursor, option)
-        st.experimental_rerun()
+        # We prevent processing the delete command if there is nothing to delete
+        if len(projects_list) > 0:
+            Project_from_gui.delete_project(db_connection_cursor, option)
+            st.experimental_rerun()
+        else:
+            st.warning("There is nothing to delete here")
 
 st.sidebar.info('Cost calculator app')
