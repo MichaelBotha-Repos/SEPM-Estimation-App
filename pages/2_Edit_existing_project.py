@@ -1,6 +1,6 @@
 import sqlite3
 import streamlit as st
-from project import Project_from_gui as pj
+from project import ProjectFromGui as pj
 from staff import Staff
 from task import Task
 from material import Materials
@@ -103,7 +103,7 @@ with tab2:
             number_req = st.number_input('Number required', value=0, step=1)
             unit_cost = st.number_input('Unit cost', value=0, step=1)
 
-            submitted = st.form_submit_button('Submit')
+            submitted = st.form_submit_button('Add Material')
 
             # formatting for sql query
             number_req = int(number_req)
@@ -141,7 +141,7 @@ with tab3:
             Staff_desc = st.text_input('Staff designation')
             rate = st.number_input('Rate', value=0, step=1)
 
-            submitted = st.form_submit_button('Submit')
+            submitted = st.form_submit_button('Add Staff')
 
             # formatting for sql query
             rate = int(rate)

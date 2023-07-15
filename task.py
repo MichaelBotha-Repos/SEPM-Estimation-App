@@ -1,11 +1,12 @@
 import pandas as pd
+import logging
 
-"""
-this class is used to manage tasks, add and edit them
-"""
 
 class Task:
-    """Represents a project task"""
+    """
+    this class is used to manage tasks, add and edit them
+    """
+
     def __init__(self):
         self.task_description = ''
         self.task_estimations = []
@@ -31,28 +32,48 @@ class Task:
     """
 
     @staticmethod
-    def add_task(db_connection_cursor, pj_name, desc, est_1, est_2, est_3, chosen_est, staff):
+    def add_task(db_cursor, project_name, desc, est_1, est_2, est_3, chosen_est, staff):
         # SQL command
-        command = f'INSERT INTO tasks_{pj_name} (task_description, estimate1, estimate2, estimate3, chosen_estimate, allocated_staff) VALUES (?, ?, ?, ?, ?, ?)'
-        db_connection_cursor.execute(command, (desc, est_1, est_2, est_3, chosen_est, staff))
-        db_connection_cursor.connection.commit()
+        try:
+            command = f"INSERT INTO tasks_{project_name} (task_description, estimate1, estimate2, estimate3, " \
+                      f"chosen_estimate, allocated_staff) VALUES (?, ?, ?, ?, ?, ?) "
+            values = (desc, est_1, est_2, est_3, chosen_est, staff)
+            db_cursor.execute(command, values)
+            db_cursor.connection.commit()
+        except Exception as e:
+            logging.error(f"An error occurred: {e}")
+            db_cursor.connection.rollback()
 
     """
     This method updates the task table using a pandas df
     args: db connection (not cursor), dataframe, project name (to get table)
     """
+
     @staticmethod
-    def update_tasks(db_connection, df, pj_name):
+    def update_tasks(db_cursor, df, project_name):
         # pandas method to send dataframe to sql table see panda docs to_sql section
-        df.to_sql(f'tasks_{pj_name}', db_connection, if_exists='replace', index=False, dtype={'task_id': 'INTEGER PRIMARY KEY AUTOINCREMENT'})
+        try:
+            db_cursor.connection.begin()
+            df.to_sql(f'tasks_{project_name}', db_cursor.connection, if_exists='replace', index=False,
+                      dtype={'task_id': 'INTEGER PRIMARY KEY AUTOINCREMENT'})
+            db_cursor.connection.commit()
+        except Exception as e:
+            logging.error(f"An error occurred: {e}")
+            db_cursor.connection.rollback()
 
     """
     method to delete task
 
     args: DB connection cursor, project name, task id
     """
+
     @staticmethod
-    def delete_task(db_connection_cursor, pj_name, task_id):
-        command = f"DELETE FROM tasks_{pj_name} WHERE task_id == {task_id}"
-        db_connection_cursor.execute(command)
-        db_connection_cursor.connection.commit()
+    def delete_task(db_cursor, project_name, task_id):
+        try:
+            command = f"DELETE FROM tasks_{project_name} WHERE task_id = ?"
+            db_cursor.execute(command, (task_id,))
+            db_cursor.connection.commit()
+        except Exception as e:
+            logging.error(f"An error occurred: {e}")
+            db_cursor.connection.rollback()
+

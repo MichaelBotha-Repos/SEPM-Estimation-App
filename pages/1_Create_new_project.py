@@ -1,6 +1,6 @@
 from time import sleep
 import streamlit as st
-from project import Project_from_gui
+from project import ProjectFromGui
 import sqlite3
 import logging
 
@@ -15,7 +15,7 @@ with st.form('new_pj', clear_on_submit=True):
 
     if submitted:
         if name_pj != "":
-            Project_from_gui.new_project(db_connection_cursor, name_pj)
+            ProjectFromGui.new_project(db_connection_cursor, name_pj)
             st.success('Success!')
             st.balloons()
             sleep(2)
@@ -23,7 +23,7 @@ with st.form('new_pj', clear_on_submit=True):
         else:
             st.warning("Please enter a name first")
 try:
-    projects_list = Project_from_gui.get_projects(db_connection_cursor)
+    projects_list = ProjectFromGui.get_projects(db_connection_cursor)
 except:
     logging.warning('Project table not created')
     st.warning('No projects yet, the script has stopped')
@@ -45,7 +45,7 @@ with st.form('input'):
     if submit:
         # We prevent processing the delete command if there is nothing to delete
         if len(projects_list) > 0:
-            Project_from_gui.delete_project(db_connection_cursor, option)
+            ProjectFromGui.delete_project(db_connection_cursor, option)
             st.experimental_rerun()
         else:
             st.warning("There is nothing to delete here")

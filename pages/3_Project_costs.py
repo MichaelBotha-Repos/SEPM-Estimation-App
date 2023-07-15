@@ -1,6 +1,6 @@
 import streamlit as st
 import sqlite3
-from project import Project_from_gui as pj
+from project import ProjectFromGui as pj
 import pandas as pd
 import logging
 
@@ -13,7 +13,6 @@ except:
     logging.warning('No projects table or empty table')
     st.warning('No projects yet, the script has stopped')
     st.stop()
-
 
 st.header('Project costs :dollar:')
 st.divider()
@@ -28,7 +27,6 @@ else:
     st.stop()
 
 if option:
-
     st.write('You selected:', option)
 
     st.divider()
@@ -47,8 +45,6 @@ if option:
     st.dataframe(df2, hide_index=True)
     tot = df2['total'].sum()
     st.write('The total task cost for this project is:', tot)
-    
-
 
     st.divider()
 
@@ -61,5 +57,3 @@ if option:
     st.write('Total project\'s materials cost:', total)
 
 st.sidebar.info('Cost calculator app')
-
-
